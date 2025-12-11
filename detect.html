@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet"></script>
+    <title>E-Waste Identification & Recycling</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background-image: url('https://www.telefonica.com/en/wp-content/uploads/sites/5/2021/12/pexels-lisa-2952809.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        .container {
+            padding: 30px;
+            text-align: center;
+            width: 90%;
+            max-width: 800px;
+            margin: 20px 0;
+            animation: fadeIn 1.5s ease-in-out;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            margin-bottom: 25px;
+            font-size: 3em;
+            color: #fff;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+            animation: slideIn 1s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .upload-section {
+            margin-bottom: 25px;
+            animation: fadeInUp 1.2s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        input[type="file"] {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 2px dashed #007bff;
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.8);
+            color: #333;
+            font-size: 1em;
+            transition: border-color 0.3s ease, background-color 0.3s ease;
+        }
+
+        input[type="file"]:hover {
+            border-color: #0056b3;
+            background-color: rgba(255, 255, 255, 1);
+        }
+
+        button {
+            padding: 12px 25px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            margin: 5px; /* Add margin to buttons */
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        #result {
+            margin-top: 25px;
+            font-size: 1.3em;
+            color: #fff;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        #recyclingCenters {
+            margin-top: 25px;
+            text-align: left;
+            color: #fff;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+            animation: fadeIn 1.2s ease-in-out;
+        }
+
+        .center-item {
+            margin-bottom: 15px;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            background-color: rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .center-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        #map {
+            height: 300px;
+            width: 100%;
+            margin-top: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        #pointsSection {
+            margin-top: 25px;
+            font-size: 1.3em;
+            color: #fff;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+            animation: fadeIn 1.4s ease-in-out;
+        }
+
+        /* Camera Feed Styles */
+        #cameraFeed {
+            margin-top: 25px;
+            width: 100%;
+            max-width: 500px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        #processingTime {
+            margin-top: 10px;
+            font-size: 1.2em;
+            color: #fff;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Additional Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Enhanced Background Overlay */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container floating">
+        <h1>E-Waste Identification & Recycling</h1>
+        <div class="upload-section">
+            <input type="file" id="imageUpload" accept="image/*">
+            <button id="detectButton">Detect E-Waste</button>
+            <button id="cameraButton">Use Camera</button>
+        </div>
+        <!-- Camera Feed Section -->
+        <video id="cameraFeed" autoplay></video>
+        <div id="processingTime"></div>
+        <div id="result"></div>
+        <div id="recyclingCenters"></div>
+        <div id="map"></div>
+        <div id="pointsSection">
+            <p>Your Points: <span id="points">0</span></p>
+        </div>
+    </div>
+
+    <script>
+        // Initialize camera feed
+        const video = document.getElementById('cameraFeed');
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    video.srcObject = stream;
+                })
+                .catch(err => {
+                    console.error('Error accessing the camera: ', err);
+                });
+        } else {
+            console.error('getUserMedia not supported');
+        }
+
+        // Simulate nearby recycling centers
+        function getNearbyRecyclingCenters() {
+            return [
+                { name: "Green E-Waste Center", address: "E Waste Recyclers India, Bhubaneswar", lat: 20.296059, lng: 85.824539 },
+                { name: "Eco Recycling Hub", address: "Eco Age Recycling, Bhubaneswar", lat: 20.260296, lng: 85.839451 },
+                { name: "Sustainable E-Waste Solutions", address: "Aagam Chemicals, Bhubaneswar", lat: 20.275944, lng: 85.777244 },
+            ];
+        }
+
+        // Detect e-waste using MobileNet
+        async function detectEWaste(img) {
+            const model = await mobilenet.load();
+            const startTime = performance.now(); // Start timing
+            const predictions = await model.classify(img);
+            const endTime = performance.now(); // End timing
+            const processingTime = (endTime - startTime).toFixed(2); // Calculate processing time
+            document.getElementById('processingTime').innerText = `Processing Time: ${processingTime} ms`;
+            return predictions[0]; // Return the top prediction
+        }
+
+        // Handle image upload
+        document.getElementById('detectButton').addEventListener('click', async function() {
+            const fileInput = document.getElementById('imageUpload');
+            const file = fileInput.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = async function(e) {
+                    const img = new Image();
+                    img.src = e.target.result;
+
+                    img.onload = async function() {
+                        const prediction = await detectEWaste(img);
+                        const detectedItem = prediction.className.toLowerCase();
+                        const confidence = (prediction.probability * 100).toFixed(2);
+
+                        document.getElementById('result').innerHTML = `
+                            <p>Detected: ${detectedItem} (Confidence: ${confidence}%)</p>
+                        `;
+                        suggestRecyclingCenters();
+                        updatePoints(10); // Reward points
+                    };
+                };
+                reader.readAsDataURL(file);
+            } else {
+                alert('Please upload an image first.');
+            }
+        });
+
+        // Handle camera input
+        document.getElementById('cameraButton').addEventListener('click', async function() {
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const context = canvas.getContext('2d');
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            const img = new Image();
+            img.src = canvas.toDataURL('image/png');
+
+            img.onload = async function() {
+                const prediction = await detectEWaste(img);
+                const detectedItem = prediction.className.toLowerCase();
+                const confidence = (prediction.probability * 100).toFixed(2);
+
+                document.getElementById('result').innerHTML = `
+                    <p>Detected: ${detectedItem} (Confidence: ${confidence}%)</p>
+                `;
+                suggestRecyclingCenters();
+                updatePoints(10); // Reward points
+            };
+        });
+
+        // Suggest recycling centers
+        function suggestRecyclingCenters() {
+            const centers = getNearbyRecyclingCenters();
+            let centersHTML = '<h2>Nearby Recycling Centers</h2>';
+            centers.forEach(center => {
+                centersHTML += `
+                    <div class="center-item">
+                        <strong>${center.name}</strong><br>
+                        ${center.address}
+                    </div>
+                `;
+            });
+            document.getElementById('recyclingCenters').innerHTML = centersHTML;
+            initMap(centers);
+        }
+
+        // Initialize map
+        function initMap(centers) {
+            const map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 12,
+                center: { lat: centers[0].lat, lng: centers[0].lng }
+            });
+
+            centers.forEach(center => {
+                new google.maps.Marker({
+                    position: { lat: center.lat, lng: center.lng },
+                    map: map,
+                    title: center.name
+                });
+            });
+        }
+
+        // Update points
+        function updatePoints(points) {
+            const pointsElement = document.getElementById('points');
+            let currentPoints = parseInt(pointsElement.innerText);
+            currentPoints += points;
+            pointsElement.innerText = currentPoints;
+        }
+    </script>
+    <!-- Load Google Maps JavaScript API -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCAQKNCKIe0s-4VKdH-rzoG7xtk3OkBH8"></script>
+</body>
+</html>

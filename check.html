@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check Waste</title>
+    <style>
+             .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: black;
+      backdrop-filter: blur(10px); /* Glass morphism effect */
+      padding: 1rem 2rem;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    /* Logo Styling */
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo img {
+      height: 70px;
+      width: 135px;
+      transition: transform 0.3s ease, filter 0.3s ease;
+      border-radius: 50%;
+    }
+
+    .logo img:hover {
+      transform: scale(1.05);
+      filter: drop-shadow(0 0 10px rgba(76, 175, 80, 0.7)); /* Glowing effect */
+    }
+
+    /* Nav Links and Auth Links Container */
+    .nav-container {
+      display: flex;
+      align-items: center;
+      gap: 2rem; /* Spacing between nav-links and auth-links */
+    }
+
+    /* Nav Links Styling */
+    .nav-links {
+      display: flex;
+      list-style: none;
+      align-items: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-links li {
+      margin-left: 2rem;
+      position: relative;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 500;
+      position: relative;
+      transition: all 0.3s ease;
+      padding: 0.5rem 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-links a i {
+      margin-right: 0.5rem;
+      font-size: 1.2rem;
+      transition: transform 0.3s ease;
+    }
+
+    /* Unique Hover Animations */
+    .nav-links li:nth-child(1) a:hover i {
+      transform: rotate(15deg) scale(1.2);
+    }
+
+    .nav-links li:nth-child(2) a:hover i {
+      transform: translateY(-5px);
+    }
+
+    .nav-links li:nth-child(3) a:hover i {
+      transform: scale(1.2) rotate(360deg);
+    }
+
+    .nav-links li:nth-child(4) a:hover i {
+      transform: skewX(-15deg);
+    }
+
+    .nav-links li:nth-child(5) a:hover i {
+      transform: translateX(5px);
+    }
+
+    .nav-links a::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, #4CAF50, #45a049);
+      bottom: 0;
+      left: 0;
+      transform: scaleX(0);
+      transform-origin: bottom right;
+      transition: transform 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: #4CAF50;
+      text-shadow: 0 0 10px rgba(76, 175, 80, 0.7);
+    }
+
+    .nav-links a:hover::before {
+      transform: scaleX(1);
+      transform-origin: bottom left;
+    }
+
+    /* Login/Signup Dropdown Styling */
+    .auth-dropdown {
+      position: relative;
+    }
+
+    .auth-dropdown > a {
+      text-decoration: none;
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+
+    .auth-dropdown > a i {
+      margin-right: 0.5rem;
+      font-size: 1.2rem;
+      transition: transform 0.3s ease;
+    }
+
+    .auth-dropdown > a:hover {
+      color: #4CAF50;
+      text-shadow: 0 0 10px rgba(76, 175, 80, 0.7);
+    }
+
+    .auth-dropdown > a:hover i {
+      transform: scale(1.2);
+    }
+
+    .auth-dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: rgba(17, 17, 17, 0.9);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      border-radius: 5px;
+      padding: 0.5rem 0;
+      min-width: 150px;
+      z-index: 1000;
+    }
+
+    .auth-dropdown-menu a {
+      padding: 0.5rem 1rem;
+      color: #fff;
+      font-size: 1rem;
+      display: block;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .auth-dropdown-menu a:hover {
+      background: rgba(76, 175, 80, 0.1);
+      color: #4CAF50;
+    }
+
+    .auth-dropdown:hover .auth-dropdown-menu {
+      display: block;
+    }
+
+    /* Mobile Menu Toggle */
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .menu-toggle .bar {
+      width: 25px;
+      height: 3px;
+      background-color: #4CAF50;
+      margin: 4px 0;
+      transition: all 0.3s ease;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .nav-container {
+        display: none; /* Hide nav-container on mobile */
+      }
+
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background: rgba(17, 17, 17, 0.9);
+        backdrop-filter: blur(10px);
+        position: absolute;
+        top: 80px; /* Adjusted for larger logo */
+        left: 0;
+        padding: 1rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+      }
+
+      .nav-links.active {
+        display: flex;
+      }
+
+      .nav-links li {
+        margin: 1rem 0;
+      }
+
+      .auth-dropdown {
+        display: none; /* Hide auth dropdown on mobile */
+      }
+
+      .menu-toggle {
+        display: flex;
+      }
+
+      .menu-toggle.active .bar:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+      }
+
+      .menu-toggle.active .bar:nth-child(2) {
+        opacity: 0;
+      }
+
+      .menu-toggle.active .bar:nth-child(3) {
+        transform: rotate(-45deg) translate(5px, -5px);
+      }
+    }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body class="bg-gray-900 text-white">
+    <header>
+        <nav class="navbar">
+          <div class="logo">
+            <a href="#"><img src="logo.jpg" alt="EcoLife Logo"></a>
+          </div>
+          <div class="nav-container">
+            <ul class="nav-links">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="about.html">About</a></li>
+              <li><a href="manage.html">How we manage waste</a></li>
+              <li><a href="contact.html"> Contact</a></li>
+            </ul>
+            <div class="auth-dropdown">
+              <a href="#"><i class="fas fa-user-circle"></i> Account</a>
+              <div class="auth-dropdown-menu">
+                <a href="#"><i class="fas fa-sign-in-alt"></i> Login</a>
+                <a href="#"><i class="fas fa-user-plus"></i> Signup</a>
+              </div>
+            </div>
+          </div>
+          <div class="menu-toggle" id="mobile-menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+          </div>
+        </nav>
+      
+      </header>
+
+<div class="bg-gray-900 text-white flex items-center justify-center h-screen">
+    <div class="bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-4xl">
+        <h1 class="text-2xl font-bold mb-4">Verify Waste Details</h1>
+        <table id="wasteTable" class="w-full">
+            <thead>
+                <tr class="bg-gray-700">
+                    <th class="p-2">Username</th>
+                    <th class="p-2">Location</th>
+                    <th class="p-2">Waste Type</th>
+                    <th class="p-2">Image</th>
+                    <th class="p-2">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows will be dynamically added here -->
+            </tbody>
+        </table>
+    </div>
+
+    
+</div>
+</body>
+<script>
+
+
+
+    if (window.location.pathname.endsWith("check.html")) {
+    const wasteDataArray = JSON.parse(localStorage.getItem("wasteDataArray"));
+
+    if (wasteDataArray && wasteDataArray.length > 0) {
+        wasteDataArray.forEach((wasteData, index) => {
+            const row = `
+                <tr class="border-b border-gray-700" data-index="${index}">
+                    <td class="p-2">${wasteData.username}</td>
+                    <td class="p-2">${wasteData.location}</td>
+                    <td class="p-2">${wasteData.wasteType}</td>
+                    <td class="p-2"><img src="${wasteData.files[0].data}" alt="Waste Image" class="w-24 h-24 object-cover"></td>
+                    <td class="p-2">
+                        <button class="tick bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-lg">✓</button>
+                        <button class="cross bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg">✗</button>
+                    </td>
+                </tr>
+            `;
+            $("#wasteTable tbody").append(row);
+        });
+
+        // Handle Tick and Cross buttons (same as before)
+        $(".tick").click(function () {
+            const index = $(this).closest("tr").data("index");
+            const wasteData = wasteDataArray[index];
+
+            let approvedDataArray = JSON.parse(localStorage.getItem("approvedDataArray")) || [];
+            approvedDataArray.push(wasteData);
+            localStorage.setItem("approvedDataArray", JSON.stringify(approvedDataArray));
+
+            wasteDataArray.splice(index, 1);
+            localStorage.setItem("wasteDataArray", JSON.stringify(wasteDataArray));
+
+            window.location.href = "approve.html";
+        });
+
+        $(".cross").click(function () {
+            const index = $(this).closest("tr").data("index");
+            wasteDataArray.splice(index, 1);
+            localStorage.setItem("wasteDataArray", JSON.stringify(wasteDataArray));
+            $(this).closest("tr").remove();
+        });
+    }
+}
+
+// Toggle mobile menu
+const mobileMenu = document.getElementById('mobile-menu');
+    const navLinks = document.querySelector('.nav-links');
+
+    mobileMenu.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+      mobileMenu.classList.toggle('active');
+    });
+
+
+$(document).ready(function () {
+    console.log("Script loaded for:", window.location.pathname);
+
+    // Check if we are on largeWaste.html
+    if (window.location.pathname.endsWith("smallWaste.html")) {
+        console.log("smallWaste.html script is running");
+
+        // Handle form submission
+        $("button.approve").click(function (e) {
+            e.preventDefault();
+
+            // Get form data
+            const username = $("#username").val();
+            const location = $("#location").val();
+            const wasteType = $("#countries").val();
+            const files = Object.values(FILES);
+
+            // Read files as data URLs
+            const fileReaders = files.map(file => {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve({
+                        name: file.name,
+                        size: file.size,
+                        type: file.type,
+                        url: reader.result
+                    });
+                    reader.onerror = () => reject(reader.error);
+                    reader.readAsDataURL(file);
+                });
+            });
+
+            // Wait for all files to be read
+            Promise.all(fileReaders).then(fileData => {
+                // Store data in localStorage
+                const wasteData = {
+                    username,
+                    location,
+                    wasteType,
+                    files: fileData
+                };
+                localStorage.setItem("wasteData", JSON.stringify(wasteData));
+
+                // Redirect to check.html
+                // window.location.href = "check.html";
+            }).catch(error => {
+                console.error("Error reading files:", error);
+            });
+        });
+
+        // Update Arch Coins display
+        const currentArchCoins = parseInt(localStorage.getItem("archCoins")) || 0;
+        $(".coins").text(`Arch Coins: ${currentArchCoins}`);
+    }
+
+    // Check if we are on check.html
+    if (window.location.pathname.endsWith("check.html")) {
+        console.log("check.html script is running");
+
+        // Retrieve data from localStorage
+        const wasteData = JSON.parse(localStorage.getItem("wasteData"));
+
+        if (wasteData) {
+            // Add data to the table
+            const row = `
+                <tr class="border-b border-gray-700">
+                    <td class="p-2">${wasteData.username}</td>
+                    <td class="p-2">${wasteData.location}</td>
+                    <td class="p-2">${wasteData.wasteType}</td>
+                    <td class="p-2"><img src="${wasteData.files[0].url}" alt="Waste Image" class="w-24 h-24 object-cover"></td>
+                    <td class="p-2">
+                        <button class="tick bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-lg">✓</button>
+                        <button class="cross bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg">✗</button>
+                    </td>
+                </tr>
+            `;
+            $("#wasteTable tbody").append(row);
+
+            // Handle Tick button click
+            $(".tick").click(function () {
+                // Move data to approve.html
+                localStorage.setItem("approvedData", JSON.stringify(wasteData));
+
+                // Calculate Arch Coins based on waste type
+                let archCoins = 0;
+                switch (wasteData.wasteType) {
+                    case "biodegradable":
+                        archCoins = 20;
+                        break;
+                    case "radioactive":
+                        archCoins = 100;
+                        break;
+                    default:
+                        archCoins = 50;
+                        break;
+                }
+
+                // Update Arch Coins in localStorage
+                let currentArchCoins = parseInt(localStorage.getItem("archCoins")) || 0;
+                currentArchCoins += archCoins;
+                localStorage.setItem("archCoins", currentArchCoins);
+
+                // Redirect to approve.html
+                window.location.href = "approve.html";
+            });
+
+            // Handle Cross button click
+            $(".cross").click(function () {
+                $(this).closest("tr").remove();
+                localStorage.removeItem("wasteData");
+            });
+        }
+    }
+
+    // Check if we are on approve.html
+    if (window.location.pathname.endsWith("approve.html")) {
+        console.log("approve.html script is running");
+
+        // Retrieve approved data from localStorage
+        const approvedData = JSON.parse(localStorage.getItem("approvedData"));
+
+        if (approvedData) {
+            // Add approved data to the table
+            const row = `
+                <tr class="border-b border-gray-700">
+                    <td class="p-2">${approvedData.username}</td>
+                    <td class="p-2">${approvedData.location}</td>
+                    <td class="p-2">${approvedData.wasteType}</td>
+                    <td class="p-2"><img src="${approvedData.files[0].url}" alt="Waste Image" class="w-24 h-24 object-cover"></td>
+                </tr>
+            `;
+            $("#approvedTable tbody").append(row);
+        }
+    }
+
+    // Check if we are on cash.html
+    if (window.location.pathname.endsWith("cash.html")) {
+        console.log("cash.html script is running");
+
+        // Retrieve Arch Coins from localStorage
+        const archCoins = parseInt(localStorage.getItem("archCoins")) || 0;
+        console.log("Arch Coins:", archCoins);
+
+        // Calculate cash value (1 Arch Coin = 100 rupees)
+        const cashValue = archCoins * 100;
+        console.log("Cash Value:", cashValue);
+
+        // Display Arch Coins and cash value
+        $("#archCoinsValue").text(`Arch Coins: ${archCoins}`);
+        $("#cashValue").text(`Cash Value: ₹${cashValue}`);
+
+        // Handle withdraw button click
+        $("#withdrawButton").click(function () {
+            alert(`Withdrawal successful! ₹${cashValue} has been transferred to your account.`);
+            // Reset Arch Coins to 0 after withdrawal
+            localStorage.setItem("archCoins", 0);
+            // Update displayed values
+            $("#archCoinsValue").text(`Arch Coins: 0`);
+            $("#cashValue").text(`Cash Value: ₹0`);
+        });
+    }
+});
+</script>
+</html>

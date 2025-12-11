@@ -1,0 +1,194 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/keen-slider@latest/keen-slider.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/keen-slider@latest/keen-slider.js"></script>
+    <title>Convert Arch Coins to Cash</title>
+  </head>
+  <body class="bg-gray-900 text-white flex items-center justify-center h-screen">
+    <div class="bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-4xl">
+      <h1 class="text-4xl text-center font-bold mb-4">Convert Arch Coins To Cash</h1>
+      <div class="value w-full flex flex-col items-center justify-center">
+        <!-- Display Arch Coins -->
+        <p id="archCoinsValue" class="text-2xl font-semibold mb-4"></p>
+        <!-- Display Cash Value -->
+        <p id="cashValue" class="text-2xl font-semibold mb-6"></p>
+      </div>
+      <!-- Withdraw button -->
+      <div class="flex justify-center">
+        <button id="withdrawButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          Withdraw Cash
+        </button>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+    console.log("Script loaded for:", window.location.pathname);
+
+    // Check if we are on largeWaste.html
+    if (window.location.pathname.endsWith("smallWaste.html")) {
+        console.log("smallWaste.html script is running");
+
+        // Handle form submission
+        $("button.approve").click(function (e) {
+            e.preventDefault();
+
+            // Get form data
+            const username = $("#username").val();
+            const location = $("#location").val();
+            const wasteType = $("#countries").val();
+            const files = Object.values(FILES);
+
+            // Read files as data URLs
+            const fileReaders = files.map(file => {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve({
+                        name: file.name,
+                        size: file.size,
+                        type: file.type,
+                        url: reader.result
+                    });
+                    reader.onerror = () => reject(reader.error);
+                    reader.readAsDataURL(file);
+                });
+            });
+
+            // Wait for all files to be read
+            Promise.all(fileReaders).then(fileData => {
+                // Store data in localStorage
+                const wasteData = {
+                    username,
+                    location,
+                    wasteType,
+                    files: fileData
+                };
+                localStorage.setItem("wasteData", JSON.stringify(wasteData));
+
+                // Redirect to check.html
+                // window.location.href = "check.html";
+            }).catch(error => {
+                console.error("Error reading files:", error);
+            });
+        });
+
+        // Update Arch Coins display
+        const currentArchCoins = parseInt(localStorage.getItem("archCoins")) || 0;
+        $(".coins").text(`Arch Coins: ${currentArchCoins}`);
+    }
+
+    // Check if we are on check.html
+    if (window.location.pathname.endsWith("check.html")) {
+        console.log("check.html script is running");
+
+        // Retrieve data from localStorage
+        const wasteData = JSON.parse(localStorage.getItem("wasteData"));
+
+        if (wasteData) {
+            // Add data to the table
+            const row = `
+                <tr class="border-b border-gray-700">
+                    <td class="p-2">${wasteData.username}</td>
+                    <td class="p-2">${wasteData.location}</td>
+                    <td class="p-2">${wasteData.wasteType}</td>
+                    <td class="p-2"><img src="${wasteData.files[0].url}" alt="Waste Image" class="w-24 h-24 object-cover"></td>
+                    <td class="p-2">
+                        <button class="tick bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-lg">✓</button>
+                        <button class="cross bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg">✗</button>
+                    </td>
+                </tr>
+            `;
+            $("#wasteTable tbody").append(row);
+
+            // Handle Tick button click
+            $(".tick").click(function () {
+                // Move data to approve.html
+                localStorage.setItem("approvedData", JSON.stringify(wasteData));
+
+                // Calculate Arch Coins based on waste type
+                let archCoins = 0;
+                switch (wasteData.wasteType) {
+                    case "biodegradable":
+                        archCoins = 20;
+                        break;
+                    case "radioactive":
+                        archCoins = 100;
+                        break;
+                    default:
+                        archCoins = 50;
+                        break;
+                }
+
+                // Update Arch Coins in localStorage
+                let currentArchCoins = parseInt(localStorage.getItem("archCoins")) || 0;
+                currentArchCoins += archCoins;
+                localStorage.setItem("archCoins", currentArchCoins);
+
+                // Redirect to approve.html
+                window.location.href = "approve.html";
+            });
+
+            // Handle Cross button click
+            $(".cross").click(function () {
+                $(this).closest("tr").remove();
+                localStorage.removeItem("wasteData");
+            });
+        }
+    }
+
+    // Check if we are on approve.html
+    if (window.location.pathname.endsWith("approve.html")) {
+        console.log("approve.html script is running");
+
+        // Retrieve approved data from localStorage
+        const approvedData = JSON.parse(localStorage.getItem("approvedData"));
+
+        if (approvedData) {
+            // Add approved data to the table
+            const row = `
+                <tr class="border-b border-gray-700">
+                    <td class="p-2">${approvedData.username}</td>
+                    <td class="p-2">${approvedData.location}</td>
+                    <td class="p-2">${approvedData.wasteType}</td>
+                    <td class="p-2"><img src="${approvedData.files[0].url}" alt="Waste Image" class="w-24 h-24 object-cover"></td>
+                </tr>
+            `;
+            $("#approvedTable tbody").append(row);
+        }
+    }
+
+    // Check if we are on cash.html
+    if (window.location.pathname.endsWith("cash.html")) {
+        console.log("cash.html script is running");
+
+        // Retrieve Arch Coins from localStorage
+        const archCoins = parseInt(localStorage.getItem("archCoins")) || 0;
+        console.log("Arch Coins:", archCoins);
+
+        // Calculate cash value (1 Arch Coin = 100 rupees)
+        const cashValue = archCoins * 100;
+        console.log("Cash Value:", cashValue);
+
+        // Display Arch Coins and cash value
+        $("#archCoinsValue").text(`Arch Coins: ${archCoins}`);
+        $("#cashValue").text(`Cash Value: ₹${cashValue}`);
+
+        // Handle withdraw button click
+        $("#withdrawButton").click(function () {
+            alert(`Withdrawal successful! ₹${cashValue} has been transferred to your account.`);
+            // Reset Arch Coins to 0 after withdrawal
+            localStorage.setItem("archCoins", 0);
+            // Update displayed values
+            $("#archCoinsValue").text(`Arch Coins: 0`);
+            $("#cashValue").text(`Cash Value: ₹0`);
+        });
+    }
+});
+</script>
+  </body>
+</html>

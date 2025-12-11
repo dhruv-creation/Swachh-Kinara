@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fish Available - Rescue Rovers</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .image-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 0.5rem;
+        }
+        .image-container img {
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+        .image-container:hover img {
+            transform: scale(1.1);
+            filter: brightness(0.8);
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white font-sans">
+    <!-- Navbar -->
+    <nav class="bg-gray-800 text-white p-4 flex justify-between items-center">
+        <div class="flex items-center">
+            <img src="pet.jpg" alt="Logo" class="w-10 h-10 rounded-full mr-2">
+            <span class="text-xl font-bold">404 FOUND</span>
+        </div>
+        <div class="md:hidden cursor-pointer" onclick="toggleMenu()">☰</div>
+        <ul class="hidden md:flex space-x-6">
+            <li><a href="petHome.html" class="hover:text-green-400">Pets</a></li>
+            <li><a href="dog.html" class="hover:text-green-400">Dogs</a></li>
+            <li><a href="cat.html" class="hover:text-green-400">Cats</a></li>
+            <li><a href="bird.html" class="hover:text-green-400">Birds</a></li>
+            <li><a href="mice.html" class="hover:text-green-400">Mice</a></li>
+            <li><a href="rabbit.html" class="hover:text-green-400">Rabbit</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-4xl font-bold text-center text-white mb-8">Fish</h1>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Fish Cards -->
+            <div class="bg-gray-800 rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
+                <h3 class="text-2xl font-semibold text-white mb-4">Goldfish</h3>
+                <div class="image-container">
+                    <img src="https://www.thesprucepets.com/thmb/DapWRwPTgyQDwPk8BI-85Wh-Amg=/2121x0/filters:no_upscale():strip_icc()/GettyImages-1253300574-a5ca41b3d423428a8202421d052fb5c5.jpg" alt="Goldfish" class="w-full h-48 object-cover rounded-lg">
+                </div>
+                <span class="inline-block bg-green-500 text-white px-4 py-1 rounded-full text-sm font-bold my-4">Available</span>
+                <button class="w-full bg-gray-700 text-white py-2 rounded-lg hover:bg-gray-600 transition duration-300" onclick="handleSubmit('Goldfish', true)">Approve</button>
+            </div>
+
+            <div class="bg-gray-800 rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
+                <h3 class="text-2xl font-semibold text-white mb-4">Betta Fish</h3>
+                <div class="image-container">
+                    <img src="https://houstonaqua.com/cdn/shop/files/DSC07717.jpg" alt="Betta Fish" class="w-full h-48 object-cover rounded-lg">
+                </div>
+                <span class="inline-block bg-green-500 text-white px-4 py-1 rounded-full text-sm font-bold my-4">Available</span>
+                <button class="w-full bg-gray-700 text-white py-2 rounded-lg hover:bg-gray-600 transition duration-300" onclick="handleSubmit('Betta Fish', true)">Approve</button>
+            </div>
+
+            <div class="bg-gray-800 rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
+                <h3 class="text-2xl font-semibold text-white mb-4">Clown Fish</h3>
+                <div class="image-container">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/ad/Amphiprion_ocellaris_%28Clown_anemonefish%29_by_Nick_Hobgood.jpg" alt="Clown Fish" class="w-full h-48 object-cover rounded-lg">
+                </div>
+                <span class="inline-block bg-green-500 text-white px-4 py-1 rounded-full text-sm font-bold my-4">Available</span>
+                <button class="w-full bg-gray-700 text-white py-2 rounded-lg hover:bg-gray-600 transition duration-300" onclick="handleSubmit('Clown Fish', true)">Approve</button>
+            </div>
+
+            <div class="bg-gray-800 rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
+                <h3 class="text-2xl font-semibold text-white mb-4">Angelfish</h3>
+                <div class="image-container">
+                    <img src="https://cdn.britannica.com/55/13455-050-9EE10B72/aquarium-angelfish-pterophyllum-scalare.jpg" alt="Angelfish" class="w-full h-48 object-cover rounded-lg">
+                </div>
+                <span class="inline-block bg-green-500 text-white px-4 py-1 rounded-full text-sm font-bold my-4">Available</span>
+                <button class="w-full bg-gray-700 text-white py-2 rounded-lg hover:bg-gray-600 transition duration-300" onclick="handleSubmit('Angelfish', true)">Approve</button>
+            </div>
+
+            <div class="bg-gray-800 rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
+                <h3 class="text-2xl font-semibold text-white mb-4">Platies</h3>
+                <div class="image-container">
+                    <img src="https://cdn11.bigcommerce.com/s-nzocnvfw4r/images/stencil/1280x1280/products/384/647/Assorted-Platies-Xiphophorus-maculatus__00210.1731440282.jpg" alt="Platies" class="w-full h-48 object-cover rounded-lg">
+                </div>
+                <span class="inline-block bg-green-500 text-white px-4 py-1 rounded-full text-sm font-bold my-4">Available</span>
+                <button class="w-full bg-gray-700 text-white py-2 rounded-lg hover:bg-gray-600 transition duration-300" onclick="handleSubmit('Platies', true)">Approve</button>
+            </div>
+
+            <div class="bg-gray-800 rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
+                <h3 class="text-2xl font-semibold text-white mb-4">Swordtails</h3>
+                <div class="image-container">
+                    <img src="https://docs.gato.txst.edu/203946/w/2000/9mkhDulFrGg3/1620px-Xiphophorus_hellerii_red_male_01.jpg" alt="Swordtails" class="w-full h-48 object-cover rounded-lg">
+                </div>
+                <span class="inline-block bg-green-500 text-white px-4 py-1 rounded-full text-sm font-bold my-4">Available</span>
+                <button class="w-full bg-gray-700 text-white py-2 rounded-lg hover:bg-gray-600 transition duration-300" onclick="handleSubmit('Swordtails', true)">Approve</button>
+            </div>
+        </div>
+
+        <!-- Checkout Button -->
+        <div class="mt-8 text-center">
+            <button id="checkout-btn" class="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-500 transition duration-300">
+                Proceed to Checkout
+            </button>
+        </div>
+    </div>
+<br>
+    <!-- Marquee -->
+    <div class="bg-gray-800 text-white py-2 fixed bottom-0 w-full">
+        <marquee>We Will Let You Know When More Pets Are Available.</marquee>
+    </div>
+
+    <!-- Script -->
+    <script>
+        // Function to handle submission
+        function handleSubmit(fishName, isAvailable) {
+            if (isAvailable) {
+                // Add the selected pet to localStorage
+                let selectedPets = JSON.parse(localStorage.getItem('selectedPets')) || [];
+                if (!selectedPets.includes(fishName)) {
+                    selectedPets.push(fishName);
+                    localStorage.setItem('selectedPets', JSON.stringify(selectedPets));
+                    alert(`${fishName} added to your selection.`);
+                } else {
+                    alert(`${fishName} is already in your selection.`);
+                }
+            } else {
+                alert(`${fishName} is currently not available.`);
+            }
+        }
+
+        // Function to handle checkout
+        document.getElementById('checkout-btn').addEventListener('click', () => {
+            const selectedPets = JSON.parse(localStorage.getItem('selectedPets')) || [];
+            if (selectedPets.length > 0) {
+                window.location.href = 'checkout.html';
+            } else {
+                alert('Please select at least one pet before proceeding to checkout.');
+            }
+        });
+
+        // Function to toggle mobile menu
+        function toggleMenu() {
+            const navLinks = document.querySelector('nav ul');
+            navLinks.classList.toggle('hidden');
+        }
+    </script>
+</body>
+</html>

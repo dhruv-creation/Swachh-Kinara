@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waste Detection System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .bounce {
+            animation: bounce 1s infinite;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .glassmorphism {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center bg-cover bg-center" style="background-image: url('https://www.vectus.in/blog/wp-content/uploads/2021/04/1-1.jpg');">
+    <!-- Navbar -->
+    <nav class="w-full bg-gray-800 text-white shadow-lg fixed top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="logo">
+                <img src="logo.jpg" alt="Logo" class="h-12 w-25 rounded-lg shadow-lg">
+            </div>
+            <ul class="nav-links hidden md:flex space-x-6">
+                <li><a href="index.html" class="flex items-center hover:text-green-400 transition duration-300"><i class="fas fa-home mr-2"></i> Home</a></li>
+                <li><a href="about.html" class="flex items-center hover:text-green-400 transition duration-300"><i class="fas fa-info-circle mr-2"></i> About</a></li>
+                <li><a href="services.html" class="flex items-center hover:text-green-400 transition duration-300"><i class="fas fa-cogs mr-2"></i> Services</a></li>
+                <li><a href="contact.html" class="flex items-center hover:text-green-400 transition duration-300"><i class="fas fa-envelope mr-2"></i> Contact</a></li>
+            </ul>
+            <div class="hamburger md:hidden">
+                <div class="line w-6 h-0.5 bg-white my-1"></div>
+                <div class="line w-6 h-0.5 bg-white my-1"></div>
+                <div class="line w-6 h-0.5 bg-white my-1"></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto p-8 bg-white/90 backdrop-blur-sm rounded-lg shadow-2xl max-w-2xl glassmorphism mt-20">
+        <h1 class="text-4xl font-bold text-green-700 mb-6 text-center">Waste Detection System</h1>
+        
+        <!-- Upload Area -->
+        <div class="upload-area mb-6 text-center">
+            <label for="uploadInput" class="upload-label bg-green-600 text-white px-8 py-4 rounded-lg cursor-pointer hover:bg-green-700 transition-all bounce">
+                📤 Upload Waste Image
+            </label>
+            <input type="file" accept="image/*" id="uploadInput" class="hidden">
+        </div>
+
+        <!-- Image Preview -->
+        <img id="imagePreview" class="image-preview w-full max-h-64 object-cover rounded-lg mt-4 hidden fade-in" alt="Uploaded waste">
+
+        <!-- Loading Spinner -->
+        <div id="loadingSpinner" class="loading-spinner mt-6 hidden">
+            <div class="w-12 h-12 border-4 border-green-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div id="progressBar" class="progress-bar bg-gray-200 rounded-full h-2 mt-6 hidden">
+            <div id="progressBarInner" class="progress-bar-inner bg-green-600 h-2 rounded-full w-0"></div>
+        </div>
+
+        <!-- Result Section -->
+        <div id="result" class="result mt-6 p-6 bg-gray-50/80 rounded-lg fade-in hidden">
+            <h3 class="text-2xl font-semibold text-green-700 mb-4">Analysis Result</h3>
+            <p><strong>Timestamp:</strong> <span id="timestamp">-</span></p>
+            <p><strong>Type:</strong> <span id="wasteType">-</span></p>
+            <p><strong>Manpower Needed:</strong> <span id="manpower">-</span></p>
+            <p><strong>Quantity:</strong> <span id="quantity">-</span></p>
+            <p><strong>Vehicle Required:</strong> <span id="vehicle">-</span></p>
+        </div>
+
+        <!-- Real-Time Waste Level -->
+        <div class="waste-level mt-6 p-6 bg-gray-50/80 rounded-lg fade-in">
+            <h3 class="text-2xl font-semibold text-green-700 mb-4">Real-Time Waste Level</h3>
+            <div class="w-full bg-gray-200 rounded-full h-4">
+                <div id="wasteLevelBar" class="bg-green-600 h-4 rounded-full w-0"></div>
+            </div>
+            <p class="mt-2 text-sm text-gray-600">Current waste level: <span id="wasteLevelText">0%</span></p>
+        </div>
+
+        <!-- Sustainability Score -->
+        <div class="sustainability-score mt-6 p-6 bg-gray-50/80 rounded-lg fade-in">
+            <h3 class="text-2xl font-semibold text-green-700 mb-4">Sustainability Score</h3>
+            <div class="text-4xl font-bold text-green-600" id="sustainabilityScore">85</div>
+            <p class="text-sm text-gray-600">Your eco-friendly score (out of 100)</p>
+        </div>
+
+        <!-- Waste Collection Schedule -->
+        <div class="collection-schedule mt-6 p-6 bg-gray-50/80 rounded-lg fade-in">
+            <h3 class="text-2xl font-semibold text-green-700 mb-4">Waste Collection Schedule</h3>
+            <p class="text-lg text-gray-700">Next collection: <span id="nextCollectionDate">-</span></p>
+        </div>
+
+        <!-- Waste Trends -->
+        <div class="waste-trends mt-6 p-6 bg-gray-50/80 rounded-lg fade-in">
+            <h3 class="text-2xl font-semibold text-green-700 mb-4">Waste Trends</h3>
+            <canvas id="wasteTrendsChart" class="w-full h-64"></canvas>
+        </div>
+
+        <!-- Personalized Recommendations -->
+        <div class="recommendations mt-6 p-6 bg-gray-50/80 rounded-lg fade-in">
+            <h3 class="text-2xl font-semibold text-green-700 mb-4">Personalized Recommendations</h3>
+            <ul id="recommendationsList" class="list-disc list-inside">
+                <li>Reduce plastic usage by switching to reusable bags.</li>
+                <li>Compost organic waste to reduce landfill contribution.</li>
+            </ul>
+        </div>
+
+        <!-- Environmental Impact Report -->
+        <div class="impact-report mt-6 p-6 bg-gray-50/80 rounded-lg fade-in">
+            <h3 class="text-2xl font-semibold text-green-700 mb-4">Environmental Impact Report</h3>
+            <p class="text-lg text-gray-700">Your waste reduction has saved <span id="carbonSaved">-</span> kg of CO₂ this month.</p>
+        </div>
+
+        <!-- Buttons -->
+        <div class="buttons mt-6 flex justify-center space-x-4">
+            <button id="downloadButton" class="download bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-all pulse">
+                📥 Download Report
+            </button>
+            <button id="resetButton" class="reset bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-all">
+                🔄 Reset
+            </button>
+            <button id="viewHistoryButton" class="view-history bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition-all">
+                📜 View History
+            </button>
+        </div>
+
+        <!-- Notification -->
+        <div id="notification" class="notification fixed bottom-4 right-4 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg hidden">
+            <span id="notificationMessage"></span>
+        </div>
+    </div>
+
+    <!-- Chart.js for Waste Trends -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const uploadInput = document.getElementById('uploadInput');
+        const imagePreview = document.getElementById('imagePreview');
+        const resultDiv = document.getElementById('result');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        const progressBar = document.getElementById('progressBar');
+        const progressBarInner = document.getElementById('progressBarInner');
+        const downloadButton = document.getElementById('downloadButton');
+        const resetButton = document.getElementById('resetButton');
+        const viewHistoryButton = document.getElementById('viewHistoryButton');
+        const notification = document.getElementById('notification');
+        const notificationMessage = document.getElementById('notificationMessage');
+        const wasteLevelBar = document.getElementById('wasteLevelBar');
+        const wasteLevelText = document.getElementById('wasteLevelText');
+        const sustainabilityScore = document.getElementById('sustainabilityScore');
+        const nextCollectionDate = document.getElementById('nextCollectionDate');
+        const carbonSaved = document.getElementById('carbonSaved');
+        const recommendationsList = document.getElementById('recommendationsList');
+
+        // Mock waste data for demonstration
+        const wasteData = [
+            { type: "Plastic & Metal Waste", manpower: 4, quantity: "5 cubic meters", vehicle: "Medium-sized Truck" },
+            { type: "Organic Waste", manpower: 2, quantity: "3 cubic meters", vehicle: "Compost Bin" },
+            { type: "E-Waste", manpower: 3, quantity: "2 cubic meters", vehicle: "Van" },
+            { type: "Paper Waste", manpower: 1, quantity: "1 cubic meter", vehicle: "Recycling Bin" },
+        ];
+
+        // Handle file upload
+        uploadInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                // Check if the file is an image
+                if (!file.type.startsWith('image/')) {
+                    showNotification('Please upload a valid image file.', 'error');
+                    return;
+                }
+
+                // Display the uploaded image
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.classList.remove('hidden');
+                    imagePreview.classList.add('fade-in');
+                    analyzeWaste();
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Simulate waste analysis
+        function analyzeWaste() {
+            // Show loading spinner and progress bar
+            loadingSpinner.classList.remove('hidden');
+            progressBar.classList.remove('hidden');
+            resultDiv.classList.add('hidden');
+
+            // Simulate progress bar animation
+            progressBarInner.style.width = '0%';
+            setTimeout(() => {
+                progressBarInner.style.width = '100%';
+            }, 10);
+
+            // Simulate a delay for analysis
+            setTimeout(() => {
+                // Hide loading spinner and progress bar
+                loadingSpinner.classList.add('hidden');
+                progressBar.classList.add('hidden');
+
+                // Randomly select waste data for demonstration
+                const randomIndex = Math.floor(Math.random() * wasteData.length);
+                const waste = wasteData[randomIndex];
+
+                // Get current timestamp
+                const timestamp = new Date().toLocaleString();
+
+                // Display analysis result
+                document.getElementById('timestamp').textContent = timestamp;
+                document.getElementById('wasteType').textContent = waste.type;
+                document.getElementById('manpower').textContent = waste.manpower;
+                document.getElementById('quantity').textContent = waste.quantity;
+                document.getElementById('vehicle').textContent = waste.vehicle;
+
+                resultDiv.classList.remove('hidden');
+                resultDiv.classList.add('fade-in');
+
+                // Update real-time waste level
+                updateWasteLevel();
+                // Update sustainability score
+                updateSustainabilityScore();
+                // Update waste collection schedule
+                updateCollectionSchedule();
+                // Update waste trends
+                updateWasteTrends();
+                // Update personalized recommendations
+                updateRecommendations();
+                // Update environmental impact report
+                updateImpactReport();
+
+                showNotification('Analysis completed successfully!', 'success');
+            }, 2000); // Simulate 2 seconds delay
+        }
+
+        // Update real-time waste level
+        function updateWasteLevel() {
+            const level = Math.floor(Math.random() * 100);
+            wasteLevelBar.style.width = `${level}%`;
+            wasteLevelText.textContent = `${level}%`;
+        }
+
+        // Update sustainability score
+        function updateSustainabilityScore() {
+            const score = Math.floor(Math.random() * 100);
+            sustainabilityScore.textContent = score;
+        }
+
+        // Update waste collection schedule
+        function updateCollectionSchedule() {
+            const date = new Date();
+            date.setDate(date.getDate() + Math.floor(Math.random() * 7));
+            nextCollectionDate.textContent = date.toLocaleDateString();
+        }
+
+        // Update waste trends
+        function updateWasteTrends() {
+            const ctx = document.getElementById('wasteTrendsChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Waste Generated (kg)',
+                        data: [100, 150, 200, 180, 220, 250],
+                        borderColor: '#4CAF50',
+                        fill: false,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                        }
+                    }
+                }
+            });
+        }
+
+        // Update personalized recommendations
+        function updateRecommendations() {
+            const recommendations = [
+                "Reduce plastic usage by switching to reusable bags.",
+                "Compost organic waste to reduce landfill contribution.",
+                "Recycle e-waste at certified centers.",
+                "Use paper bags instead of plastic bags.",
+            ];
+            recommendationsList.innerHTML = recommendations.map(r => `<li>${r}</li>`).join('');
+        }
+
+        // Update environmental impact report
+        function updateImpactReport() {
+            const carbon = Math.floor(Math.random() * 100);
+            carbonSaved.textContent = carbon;
+        }
+
+        // Download report as a text file
+        downloadButton.addEventListener('click', function() {
+            const resultText = resultDiv.innerText;
+            if (resultText) {
+                const blob = new Blob([resultText], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'waste_analysis_report.txt';
+                a.click();
+                URL.revokeObjectURL(url);
+            } else {
+                showNotification('No analysis result to download.', 'error');
+            }
+        });
+
+        // Reset the form
+        resetButton.addEventListener('click', function() {
+            uploadInput.value = ''; // Clear file input
+            imagePreview.src = ''; // Clear image preview
+            imagePreview.classList.add('hidden');
+            resultDiv.classList.add('hidden');
+            progressBarInner.style.width = '0%'; // Reset progress bar
+            showNotification('Form reset successfully.', 'success');
+        });
+
+        // View History (Simulated)
+        viewHistoryButton.addEventListener('click', function() {
+            showNotification('View History feature is under development.', 'info');
+        });
+
+        // Show notification
+        function showNotification(message, type) {
+            notificationMessage.textContent = message;
+            notification.classList.remove('hidden');
+            notification.classList.add('fade-in');
+
+            // Set notification color based on type
+            if (type === 'error') {
+                notification.classList.remove('bg-green-600');
+                notification.classList.add('bg-red-600');
+            } else if (type === 'info') {
+                notification.classList.remove('bg-green-600');
+                notification.classList.add('bg-blue-600');
+            } else {
+                notification.classList.remove('bg-red-600', 'bg-blue-600');
+                notification.classList.add('bg-green-600');
+            }
+
+            // Hide notification after 3 seconds
+            setTimeout(() => {
+                notification.classList.add('hidden');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

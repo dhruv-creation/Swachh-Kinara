@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Individual Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* Custom CSS for advanced effects */
+        body {
+            background-color: #111827; 
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .background-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #6b46c1, #805ad5, #38a169, #48bb78);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            filter: blur(20px) brightness(0.6);
+            z-index: -1;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .content-container {
+            position: relative;
+            background: rgba(31, 41, 55, 0.6);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            animation: fadeIn 1.5s ease-in-out;
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .content-container:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .button {
+            display: inline-block;
+            padding: 16px 32px;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            text-transform: uppercase;
+            border-radius: 16px;
+            background: linear-gradient(45deg, #6b46c1, #805ad5);
+            box-shadow: 0 4px 15px rgba(107, 70, 193, 0.4);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            transform: rotate(0deg) scale(1);
+            margin: 10px;
+        }
+
+        .button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300%;
+            height: 300%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.4), transparent);
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 0.6s ease;
+            border-radius: 50%;
+        }
+
+        .button:hover::before {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .button:hover {
+            transform: rotate(3deg) scale(1.05);
+            box-shadow: 0 8px 25px rgba(107, 70, 193, 0.6), 0 0 30px rgba(107, 70, 193, 0.4);
+        }
+
+        .button-green {
+            background: linear-gradient(45deg, #38a169, #48bb78);
+            box-shadow: 0 4px 15px rgba(56, 161, 105, 0.4);
+        }
+
+        .button-green:hover {
+            transform: rotate(-3deg) scale(1.05);
+            box-shadow: 0 8px 25px rgba(56, 161, 105, 0.6), 0 0 30px rgba(56, 161, 105, 0.4);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .glow {
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 10px rgba(107, 70, 193, 0.6), 0 0 20px rgba(107, 70, 193, 0.4);
+            }
+            to {
+                box-shadow: 0 0 20px rgba(107, 70, 193, 0.8), 0 0 40px rgba(107, 70, 193, 0.6);
+            }
+        }
+
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .text-animation {
+            animation: textFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes textFloat {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+</head>
+<body>
+    <!-- Background Overlay -->
+    <div class="background-overlay"></div>
+
+    <!-- Particle Effect -->
+    <div id="particles-js"></div>
+
+    <!-- Content Container -->
+    <div class="content-container text-center space-y-8">
+        <!-- Title -->
+        <h1 class="text-4xl font-bold text-white text-animation">Individual Side</h1>
+
+        <!-- Pet Adoption Anchor Tag -->
+        <!-- <a href="petHome.html" class="button glow">
+            Pet Adoption
+        </a> -->
+
+        <!-- Waste Collection Anchor Tag -->
+        <a href="smallWaste.html" class="button button-green glow">
+            Waste Collection
+        </a>
+    </div>
+
+    <script>
+        // Initialize Particle.js
+        particlesJS.load('particles-js', 'particles.json', function() {
+            console.log('callback - particles.js config loaded');
+        });
+
+        // Basic particles.json configuration
+        const particlesConfig = {
+            "particles": {
+                "number": {
+                    "value": 80,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": "#ffffff"
+                },
+                "shape": {
+                    "type": "circle"
+                },
+                "opacity": {
+                    "value": 0.5,
+                    "random": false,
+                    "anim": {
+                        "enable": false,
+                        "speed": 1,
+                        "opacity_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "size": {
+                    "value": 3,
+                    "random": true,
+                    "anim": {
+                        "enable": false,
+                        "speed": 40,
+                        "size_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#ffffff",
+                    "opacity": 0.4,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 6,
+                    "direction": "none",
+                    "random": false,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                    "attract": {
+                        "enable": false,
+                        "rotateX": 600,
+                        "rotateY": 1200
+                    }
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "repulse"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    },
+                    "resize": true
+                },
+                "modes": {
+                    "repulse": {
+                        "distance": 100,
+                        "duration": 0.4
+                    },
+                    "push": {
+                        "particles_nb": 4
+                    }
+                }
+            },
+            "retina_detect": true
+        };
+
+        // Load particles with the configuration
+        particlesJS('particles-js', particlesConfig);
+    </script>
+</body>
+</html>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Non-Biodegradable Waste Shop</title>
+    <style>
+        .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: black;
+    padding: 10px;
+    z-index: 1000; /* Ensures it stays above other elements */
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    padding-top: 60px; /* Adjust to avoid overlap with navbar */
+    background: #f4f4f4;
+    text-align: center;
+}
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            display: inline-block;
+        }
+        .navbar:hover {
+    background: linear-gradient(Black);
+}
+.navbar a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    display: inline-block;
+    transition: color 0.3s ease-in-out;
+}
+
+.navbar a:hover {
+    color: yellow;
+}
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+        h1 {
+            color: green;
+        }
+        .products {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .product {
+            background: black;
+            color:#f4f4f4;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 200px;
+            text-align: center;
+        }
+        .product img {
+            width: 100%;
+            border-radius: 5px;
+        }
+        .quantity {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px;
+        }
+        .quantity button {
+            background: green;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .quantity span {
+            margin: 0 10px;
+            font-size: 1.2rem;
+        }
+        .checkout {
+            margin-top: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .checkout button {
+            background: red;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+        }
+        .h1{
+    background: linear-gradient(135deg, #4CAF50, #2E8B57);
+    padding: 20px;
+    text-align: center;
+    border-radius: 12px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+ h1 {
+    font-size: 3rem;
+    font-family:fantasy;
+    color:maroon;
+    margin: 0;
+    padding: 10px;
+    font-weight:bolder;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    
+}
+
+    </style>
+   <script>
+    function increaseQuantity(id) {
+        let quantityElement = document.getElementById(id);
+        quantityElement.innerText = parseInt(quantityElement.innerText) + 1;
+    }
+
+    function decreaseQuantity(id) {
+        let quantityElement = document.getElementById(id);
+        let currentQuantity = parseInt(quantityElement.innerText);
+        if (currentQuantity > 1) {
+            quantityElement.innerText = currentQuantity - 1;
+        }
+    }
+
+    function saveQuantitiesAndCheckout() {
+        let products = [
+            { name: "Plastic", id: "qty1", profitPerTon: 8000 },
+            { name: "Metal", id: "qty2", profitPerTon: 50000 },
+            { name: "Glass", id: "qty3", profitPerTon: 30000 },
+            { name: "Thermocol", id: "qty4", profitPerTon: 30000 },
+            { name: "Rubber", id: "qty5", profitPerTon: 20000 },
+            { name: "Carbon Paper", id: "qty6", profitPerTon: 70000 }
+        ];
+
+        let cart = [];
+        let totalProfit = 0;
+
+        products.forEach(item => {
+            let quantity = parseInt(document.getElementById(item.id).innerText);
+            if (quantity > 0) {
+                let totalItemProfit = quantity * item.profitPerTon;
+                totalProfit += totalItemProfit;
+
+                cart.push({
+                    name: item.name,
+                    quantity: quantity,
+                    profitPerTon: item.profitPerTon,
+                    totalItemProfit: totalItemProfit
+                });
+            }
+        });
+
+        let cartData = {
+            items: cart,
+            totalProfit: totalProfit
+        };
+
+        localStorage.setItem("cart", JSON.stringify(cartData));
+        window.location.href = "checkout1.html";
+    }
+</script>
+</head>
+<body>
+    <div class="navbar">
+        <a href="largeWaste.html">Waste</a>
+        <a href="biodegradable.html">Biodegradable Waste</a>
+        <a href="nonbiodegradable.html">Non-Biodegradable Waste</a>
+        <a href="electronic.html">Electronic Waste</a>
+        <a href="hazardous.html">Hazardous Waste</a>
+        <a href="radioactive.html">Radioactive Waste</a>
+    </div>
+    <div class="container">
+        <h1>Non-Biodegradable Waste</h1>
+        <div class="products">
+            <div class="product">
+                <img src="https://ucarecdn.com/f1ab779b-a2a5-4099-b0f9-42d15ae76527/-/format/auto/-/preview/3000x3000/-/quality/lighter/" alt="Plastic"height="150"width="100">
+                <h2>Plastic</h2>
+                <p>Profit on selling Per Ton: ₹8000</p>
+                <div class="quantity">
+                    <button onclick="decreaseQuantity('qty1')">-</button>
+                    <span id="qty1">0</span>
+                    <button onclick="increaseQuantity('qty1')">+</button>
+                </div>
+            </div>
+            <div class="product">
+                <img src="https://media.istockphoto.com/id/646996026/photo/metal-profiles-and-tubes-different-stainless-steel-products.jpg?s=612x612&w=0&k=20&c=h3Kmz9NBC9Egi3KvQHVO-_UXBQ2ciU0jEunusO72tIY=" alt="Metal"height="150"width="100">
+                <h2>Metal</h2>
+                <p>Profit on selling Per Ton: ₹50000</p>
+                <div class="quantity">
+                    <button onclick="decreaseQuantity('qty2')">-</button>
+                    <span id="qty2">0</span>
+                    <button onclick="increaseQuantity('qty2')">+</button>
+                </div>
+            </div>
+            <div class="product">
+                <img src="https://images.unsplash.com/photo-1554140426-5e830b73a5e8?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHdhdGVyJTIwZ2xhc3N8ZW58MHx8MHx8fDA%3D" alt="Glass"height="150"width="100">
+                <h2>Glass</h2>
+                <p>Profit on selling Per Ton: ₹30000</p>
+                <div class="quantity">
+                    <button onclick="decreaseQuantity('qty3')">-</button>
+                    <span id="qty3">0</span>
+                    <button onclick="increaseQuantity('qty3')">+</button>
+                </div>
+            </div>
+            <div class="product">
+                <img src="https://i.pinimg.com/736x/31/8f/ac/318fac83c9d664483f333ccb05f56517.jpg" alt="Thermocol"height="150"width="100">
+                <h2>Thermocol</h2>
+                <p>Profit on selling Per Ton: ₹30000</p>
+                <div class="quantity">
+                    <button onclick="decreaseQuantity('qty4')">-</button>
+                    <span id="qty4">0</span>
+                    <button onclick="increaseQuantity('qty4')">+</button>
+                </div>
+            </div>
+            <div class="product">
+                <img src="https://images.unsplash.com/photo-1527266258038-6ae3e089a609?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cnViYmVyfGVufDB8fDB8fHww" alt="Rubber"height="150"width="100">
+                <h2>Rubber</h2>
+                <p>Profit on selling Per Ton: ₹20000</p>
+                <div class="quantity">
+                    <button onclick="decreaseQuantity('qty5')">-</button>
+                    <span id="qty5">0</span>
+                    <button onclick="increaseQuantity('qty5')">+</button>
+                </div>
+            </div>
+            <div class="product">
+                <img src="https://www.researchgate.net/publication/347539521/figure/fig5/AS:11431281208206746@1701378855506/SEM-images-of-carbon-paper-samples-heat-treated-to-a-and-b-800-C-c-1100-C-d.jpg" alt="Carbon Paper"height="150"width="100">
+                <h2>Carbon Paper</h2>
+                <p>Profit on selling Per Ton: ₹70000</p>
+                <div class="quantity">
+                    <button onclick="decreaseQuantity('qty6')">-</button>
+                    <span id="qty6">0</span>
+                    <button onclick="increaseQuantity('qty6')">+</button>
+                </div>
+            </div>
+        </div>
+        <div class="checkout">
+            <h2>Ready to Checkout?</h2>
+            <button onclick="saveQuantitiesAndCheckout()">Proceed to Checkout</button>
+        </div>
+    </div>
+</body>
+</html>

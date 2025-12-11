@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-image: url('https://images.unsplash.com/photo-1421789665209-c9b2a435e3dc?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8ZW52aXJvbm1lbnR8ZW58MHx8MHx8fDA%3D');
+            background-size: cover; /* Ensures the image covers the entire background */
+            background-position: center; /* Centers the image */
+            background-repeat: no-repeat; /* Prevents the image from repeating */
+            background-attachment: fixed; /* Keeps the background fixed while scrolling */
+            color: #333; /* Darker text for better readability */
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            color: green;
+        }
+        .order-summary {
+            text-align: left;
+            padding: 10px;
+            border-top: 2px solid #ddd;
+            margin-top: 20px;
+        }
+        .order-summary p {
+            font-size: 1.1em;
+            margin: 5px 0;
+        }
+        .total {
+            font-weight: bold;
+            font-size: 1.3em;
+            color: red;
+            margin-top: 10px;
+        }
+        .confirm-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: green;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+        .confirm-btn:hover {
+            background-color: darkgreen; /* Darker green on hover */
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let cartData = JSON.parse(localStorage.getItem("cart"));
+            let orderDetails = document.getElementById("order-details");
+            let totalProfit = 0;
+
+            if (!cartData || cartData.items.length === 0) {
+                orderDetails.innerHTML = "<p>No items in the order.</p>";
+            } else {
+                cartData.items.forEach(item => {
+                    totalProfit += item.totalItemProfit;
+                    orderDetails.innerHTML += `
+                        <p><strong>${item.name}</strong> - Quantity: ${item.quantity} | Profit: ₹${item.totalItemProfit.toLocaleString()}</p>
+                    `;
+                });
+                orderDetails.innerHTML += <p class="total">Total Profit: ₹${totalProfit.toLocaleString()}</p>;
+            }
+        });
+
+        function confirmOrder() {
+            localStorage.removeItem("cart");
+            window.location.href = "orderconfirm.html";
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Checkout</h1>
+        <p>Review your waste before confirming:</p>
+        <div class="order-summary" id="order-details"></div>
+        <button class="confirm-btn" onclick="confirmOrder()">Confirm</button>
+    </div>
+</body>
+</html>

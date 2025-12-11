@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wildlife Conservation & Waste Management</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    /* Custom animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateY(-20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .animate-fade-in {
+      animation: fadeIn 1.5s ease-out forwards;
+    }
+
+    .animate-slide-in {
+      animation: slideIn 1.5s ease-out forwards;
+    }
+
+    /* Smooth scrolling */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #4CAF50;
+      border-radius: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #45a049;
+    }
+body{
+    background-color: grey;
+}
+    /* Parallax effect */
+    .parallax {
+      background-attachment: fixed;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
+    /* Navbar Styling */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #1a1a1a;
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+      margin-left: auto; /* Push nav links to the right */
+    }
+
+    .nav-links li {
+      position: relative;
+    }
+
+    .nav-links a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nav-links a i {
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: #ff4757;
+      transform: translateY(-3px);
+    }
+
+    .nav-links a:hover i {
+      transform: scale(1.2);
+    }
+
+    /* Hamburger Menu Styling */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .hamburger .line {
+      width: 25px;
+      height: 3px;
+      background-color: #fff;
+      margin: 4px 0;
+      transition: all 0.3s ease;
+    }
+
+    /* Hamburger Animation */
+    .hamburger.active .line:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .hamburger.active .line:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.active .line:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background-color: #1a1a1a;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        padding: 1rem;
+        animation: slideDown 0.5s ease-in-out;
+      }
+
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .nav-links.active {
+        display: flex;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+    }
+  </style>
+</head>
+
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    
+    <ul class="nav-links">
+      <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+      <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+      <li><a href="services.html"><i class="fas fa-cogs"></i> Services</a></li>
+      <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+    </ul>
+    <div class="hamburger">
+      <div class="line"></div>
+      <div class="line"></div>
+      <div class="line"></div>
+    </div>
+  </nav>
+
+  <!-- Header -->
+  <header class="parallax relative z-10 text-center py-32 text-white" style="background-image: url('https://img.freepik.com/premium-photo/pile-discarded-computer-hardware-awaiting-disposal-recycling-old-parts-concept-ewaste-recycling-technology-environmental-impact-waste-management_918839-237985.jpg');">
+    <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+    <div class="relative z-10">
+      <h1 class="text-5xl md:text-6xl font-bold animate-slide-in bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-teal-500">
+        Wildlife Conservation & Waste Management
+      </h1>
+      <p class="text-xl md:text-2xl mt-4 animate-fade-in">Protecting Nature, One Step at a Time</p>
+      <a href="#services" class="mt-8 inline-block px-8 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-300 transform hover:scale-105 animate-fade-in">
+        Explore Our Services
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div id="services" class="relative z-10 max-w-6xl mx-auto p-6 bg-white dark:bg-gray-800 bg-opacity-90 backdrop-blur-sm rounded-lg shadow-2xl animate-fade-in mt-12">
+    <h2 class="text-4xl font-bold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-teal-600">
+      Our Services
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Wildlife Conservation -->
+      <div class="bg-white dark:bg-gray-700 bg-opacity-95 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-2">
+        <h3 class="text-2xl font-semibold text-green-700 dark:text-green-400">Wildlife Conservation</h3>
+        <p class="mt-4 text-gray-700 dark:text-gray-300">We protect and restore natural habitats, safeguard endangered species, and promote biodiversity.</p>
+        <ul class="mt-4 space-y-2">
+          <li class="bg-green-50 dark:bg-gray-600 p-3 rounded-md text-sm hover:bg-green-100 dark:hover:bg-gray-500 transition-colors duration-200">Habitat Restoration</li>
+          <li class="bg-green-50 dark:bg-gray-600 p-3 rounded-md text-sm hover:bg-green-100 dark:hover:bg-gray-500 transition-colors duration-200">Species Protection</li>
+          <li class="bg-green-50 dark:bg-gray-600 p-3 rounded-md text-sm hover:bg-green-100 dark:hover:bg-gray-500 transition-colors duration-200">Community Engagement</li>
+        </ul>
+      </div>
+
+      <!-- Waste Management -->
+      <div class="bg-white dark:bg-gray-700 bg-opacity-95 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-2">
+        <h3 class="text-2xl font-semibold text-green-700 dark:text-green-400">Waste Management</h3>
+        <p class="mt-4 text-gray-700 dark:text-gray-300">We provide innovative solutions to reduce waste and its impact on ecosystems.</p>
+        <ul class="mt-4 space-y-2">
+          <li class="bg-green-50 dark:bg-gray-600 p-3 rounded-md text-sm hover:bg-green-100 dark:hover:bg-gray-500 transition-colors duration-200">Recycling Programs</li>
+          <li class="bg-green-50 dark:bg-gray-600 p-3 rounded-md text-sm hover:bg-green-100 dark:hover:bg-gray-500 transition-colors duration-200">Plastic Waste Cleanups</li>
+          <li class="bg-green-50 dark:bg-gray-600 p-3 rounded-md text-sm hover:bg-green-100 dark:hover:bg-gray-500 transition-colors duration-200">Composting Initiatives</li>
+        </ul>
+      </div>
+<!-- 
+      Wildlife-Friendly Waste Management
+      <div class="bg-white dark:bg-gray-700 bg-opacity-95 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-2">
+        <h3 class="text-2xl font-semibold text-green-700 dark:text-green-400">Pet Adoption</h3>
+        <p class="mt-4 text-gray-700 dark:text-gray-300">We ensure waste disposal practices do not harm animals or their habitats.</p>
+        <ul class="mt-4 space-y-2">
+          <li class="bg-green-50 dark:bg-gray-600 p-3 rounded-md text-sm hover:bg-green-100 dark:hover:bg-gray-500 transition-colors duration-200">Save a Life</li>
+          <li class="bg-green-50 dark:bg-gray-600 p-3 rounded-md text-sm hover:bg-green-100 dark:hover:bg-gray-500 transition-colors duration-200">Find Your Perfect Companion</li>
+          <li class="bg-green-50 dark:bg-gray-600 p-3 rounded-md text-sm hover:bg-green-100 dark:hover:bg-gray-500 transition-colors duration-200">Make a Positive Impact</li>
+        </ul>
+      </div>
+    </div> -->
+
+    <!-- Call to Action -->
+    <h2 id="get-involved" class="text-4xl font-bold text-center mt-16 mb-8 bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-teal-600">
+      Get Involved
+    </h2>
+    <p class="text-center text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
+      Join us in our mission to protect wildlife and manage waste responsibly. Together, we can make a difference.
+    </p>
+    <div class="text-center mt-8">
+      <button onclick="showAlert()" class="px-8 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+        Donate Now
+      </button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer id="contact" class="relative z-10 bg-black bg-opacity-70 text-white text-center py-8 mt-16">
+    <div class="max-w-4xl mx-auto px-4">
+      <p class="text-lg">Contact Us: <a href="mailto:info@yourorganization.org" class="text-green-400 hover:text-green-300">info@yourorganization.org</a> | +1 (123) 456-7890</p>
+      <p class="mt-2 text-sm">&copy; 2023 Wildlife Conservation & Waste Management. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- JavaScript for Dark/Light Mode Toggle -->
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    const body = document.body;
+
+    themeToggle.addEventListener('click', () => {
+      body.classList.toggle('dark');
+      if (body.classList.contains('dark')) {
+        themeIcon.textContent = '☀';
+      } else {
+        themeIcon.textContent = '🌙';
+      }
+    });
+
+    function showAlert() {
+      alert("Thank you for your support! Together, we can make a difference.");
+    }
+
+    // Toggle mobile menu
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      navLinks.classList.toggle('active');
+    });
+  </script>
+</body>
+</html>

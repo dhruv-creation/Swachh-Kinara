@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <style>
+            .logo{
+             width: 270px;
+            display: flex;
+            justify-content: space-between;
+            }
+            .logo #img{
+                height: 50px;
+                width: 50px;
+                border-radius: 50%;
+            }
+            nav{
+              position: fixed;
+              z-index: 999;
+            }
+        </style>
+</head>
+<body>
+    <header>
+        <nav class="w-screen bg-black h-fit overflow-hidden">
+          <div class="py-4 lg:px-8 px-4 max-w-[1280px] h-16 m-auto text-white flex items-center justify-between">
+              <div class="logo">
+                  <img id="img" src="pet.jpg" alt="">
+                  <h1 class="lg:text-2xl text-xl uppercase tracking-wider cursor-pointer font-bold">404 FOUND</h1>
+              </div>
+              <div class="flex lg:gap-8 gap-6 uppercase tracking-wider cursor-pointer text-lg items-center" id="navItems">
+                  <a href="petHome.html">
+                      <span class="group">
+                          Pet
+                          <div class="w-0 group-hover:w-full h-0.5 bg-white ease-in-out duration-500"></div>
+                      </span>
+                  </a>
+                  <a href="services.html">
+                      <span class="group">
+                          Services
+                          <div class="w-0 group-hover:w-full h-0.5 bg-white ease-in-out duration-500"></div>
+                      </span>
+                  </a>
+                  <a href="about.html">
+                    <span class="group">
+                        About Us
+                        <div class="w-0 group-hover:w-full h-0.5 bg-white ease-in-out duration-500"></div>
+                    </span>
+                </a>
+                  <a href="contact.html">
+                      <span class="group">
+                          Contact
+                          <div class="w-0 group-hover:w-full h-0.5 bg-white ease-in-out duration-500"></div>
+                      </span>
+                  </a>
+              </div>
+              <div id="hamburger" class="fa fa-bars flex items-center text-xl" style="display:none;"></div>
+              <div id="mobileNav"
+                  class="fixed flex flex-col gap-8 pt-16 px-4 text-xl uppercase bg-teal-500 h-full inset-0 top-16 w-[70%] left-[-70%] ease-in-out duration-500 cursor-pointer">
+                  <span>Services</span>
+                  <span>About</span>
+                  <span>Contact</span>
+              </div>
+          </div>
+      </nav>
+       </header>
+<br><br>
+    <div class="relative flex min-h-screen flex-col bg-black">
+        <div class="min-h-28">
+            <div class="mx-auto py-4">
+                <h2 class="font-black text-9xl text-white uppercase">
+                Saviours Happiness!
+                </h2>
+    
+                <div class="gap-6 mt-8 mx-4 md:flex">
+                    <div class="md:w-1/2">
+                        <div class="wrap-video">
+                            <video class="object-cover h-96 w-full bg-black" loop="" >
+                                <source 
+                                    src="https://cdn.pixabay.com/video/2019/08/27/26314-357839024_large.mp4"
+                                    type="video/mp4">
+                            </video>
+                        </div>
+                        <span class="pt-4 grid grid-cols-6 gap-4">
+                            <span class="col-start-1 col-end-3 font-bold text-lg text-white uppercase font-mono">
+                                Dog x Owner
+                            </span>
+                            <span class="col-end-7 col-span-2 text-sm text-slate-500 uppercase font-mono flex justify-end">
+                                <span class="">
+                                    Happy Life
+                                </span>
+                            </span>
+                        </span>
+                        <span class="block text-slate-400 text-xs uppercase font-mono">
+                                the trail less taken
+                        </span>
+                    </div>
+                    <div class="md:w-1/2">
+                        <div class="wrap-video">
+                            <video class="object-cover h-96 w-full bg-black" loop="" >
+                                <source 
+                                    src="https://cdn.pixabay.com/video/2024/04/03/206726_large.mp4"
+                                    type="video/mp4">
+                            </video>
+                        </div>
+                        <span class="pt-4 grid grid-cols-6 gap-4">
+                            <span class="col-start-1 col-end-3 font-bold text-lg text-white uppercase font-mono">
+                                Cat x Owner
+                            </span>
+                            <span class="col-end-7 col-span-2 text-sm text-slate-500 uppercase font-mono flex justify-end">
+                                <span class="">
+                                    Happy Life
+                                </span>
+                            </span>
+                        </span>
+                        <span class="block text-slate-400 text-xs uppercase font-mono">
+                                the world at large
+                        </span>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="gap-6 mt-8 mx-4 md:flex">
+                <div class="md:w-1/2">
+                    <div class="wrap-video">
+                        <video class="object-cover h-96 w-full bg-black" loop="" >
+                            <source 
+                                src="https://cdn.pixabay.com/video/2021/08/18/85465-589196055_large.mp4"
+                                type="video/mp4">
+                        </video>
+                    </div>
+                    <span class="pt-4 grid grid-cols-6 gap-4">
+                        <span class="col-start-1 col-end-3 font-bold text-lg text-white uppercase font-mono">
+                            Cat x Owner
+                        </span>
+                        <span class="col-end-7 col-span-2 text-sm text-slate-500 uppercase font-mono flex justify-end">
+                            <span class="">
+                                Happy Life 
+                            </span>
+                        </span>
+                    </span>
+                    <span class="block text-slate-400 text-xs uppercase font-mono">
+                            grandma cabbage 
+                    </span>
+                </div>
+                <div class="md:w-1/2">
+                    <div class="wrap-video">
+                        <video class="object-cover h-96 w-full bg-black" loop="" >
+                            <source 
+                                src="https://cdn.pixabay.com/video/2022/11/08/138178-769141438_large.mp4"
+                                type="video/mp4">
+                        </video>
+                    </div>
+                    <span class="pt-4 grid grid-cols-6 gap-4">
+                        <span class="col-start-1 col-end-3 font-bold text-lg text-white uppercase font-mono">
+                            Birds x Owner
+                        </span>
+                        <span class="col-end-7 col-span-2 text-sm text-slate-500 uppercase font-mono flex justify-end">
+                            <span class="">
+                                Happy Life
+                            </span>
+                        </span>
+                    </span>
+                    <span class="block text-slate-400 text-xs uppercase font-mono">
+                            transportation the perfect pets
+                    </span>
+                </div>
+            </div>
+            <h2 class="font-black text-7xl text-white text-center uppercase my-16 hover:bg-white hover:text-black hover:rounded-full hover:px-6">
+                Thanks For Saving Life!
+            </h2>
+        </div>
+    </div>
+    
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    var video = $('.wrap-video').hover(hoverVideo, hideVideo);
+
+function hoverVideo(e) {  
+    $('video', this).get(0).play(); 
+}
+
+function hideVideo(e) {
+    $('video', this).get(0).pause(); 
+}
+})
+</script>
+</html>
